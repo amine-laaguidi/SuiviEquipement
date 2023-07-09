@@ -5,7 +5,8 @@ import java.util.Optional;
 
 public interface AccessoireService {
     Accessoire save(Accessoire accessoire) throws Exception;
-    Accessoire deleteById(Long idA) throws Exception;
+    void deleteById(Long idA) throws Exception;
     Optional<Accessoire> findById(Long idA) throws Exception;
+    boolean refExist(String ref) throws Exception;
     List<Accessoire> findAll() throws Exception;
 }
