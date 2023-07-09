@@ -13,7 +13,7 @@ public class Certificat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idC;
-    @Column(length = 50)
+    @Column(length = 50,unique = true)
     String numero;
     @Column(name = "valid_date",columnDefinition = "DATE")
     Date date;

@@ -13,7 +13,7 @@ public class Accessoire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idA;
-    @Column(length = 30)
+    @Column(length = 30,unique = true)
     String ref;
     String description;
     @ManyToOne @JoinColumn(name = "idE") @JsonBackReference
