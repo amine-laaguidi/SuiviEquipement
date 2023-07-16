@@ -7,8 +7,7 @@ import java.util.Optional;
 
 public interface EquipementService {
     Equipement save(Equipement equipement) throws Exception;
-    Equipement update(Equipement equipement) throws Exception;
-    Equipement deleteById(Long idE) throws Exception;
-    Optional<Equipement> findById(Long idE) throws Exception;
+    void deleteById(Long idE) throws Exception;
+    Equipement findById(Long idE) throws Exception;
     List<Equipement> findAll() throws Exception;
 }
