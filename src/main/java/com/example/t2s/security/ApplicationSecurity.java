@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
@@ -22,7 +23,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/assets/**").permitAll()
                 .antMatchers("/login","/register","/","/forgetPassword").permitAll()
                 .antMatchers("/admin","/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user","/user/**").hasAnyRole("USER","ADMIN")
@@ -31,7 +32,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .successHandler(new RoleBasedAuthenticationSuccessHandler())
+                .successHandler(successHandler())
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new CustomAccessDeniedHandler())
@@ -45,6 +46,9 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
+    }
+    private AuthenticationSuccessHandler successHandler() {
+        return new RoleBasedAuthenticationSuccessHandler();
     }
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider(){
