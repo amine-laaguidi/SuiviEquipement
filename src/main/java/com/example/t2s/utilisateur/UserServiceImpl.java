@@ -23,12 +23,37 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User save(User user) throws Exception {
+        if (userRepository.findById(user.getEmail()).isPresent())
+            throw new Exception("Email déja utilisé");
         try {
             return userRepository.save(user);
         }catch (Exception e){
             throw new Exception("erreur d'inscription");
         }
     }
+
+    @Override
+    public User updateRoleByEmail(String email,String role) throws Exception {
+        try {
+            User user = userRepository.findById(email).get();
+            user.setRole(role);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new Exception("Impossible de modifier le role");
+        }
+    }
+
+    @Override
+    public User enabledByEmail(String email, Boolean enabled) throws Exception {
+        try {
+            User user = userRepository.findById(email).get();
+            user.setEnabled(enabled);
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new Exception("Impossible d'activer cet utilisateur");
+        }
+    }
+
     @Override
     public User getPrincipalUser() throws Exception {
         Optional<User> user = findById(getPrincipal().getUsername());

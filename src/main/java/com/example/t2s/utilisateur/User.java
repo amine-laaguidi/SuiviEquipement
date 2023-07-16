@@ -14,6 +14,7 @@ public class User {
     private  boolean enabled;
     private String role;
     public User() {
+        role = "ROLE_USER";
         enabled = false;
         credentialsNonExpired = true;
         accountNonLocked = true;
