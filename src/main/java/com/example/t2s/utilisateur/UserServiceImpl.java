@@ -56,6 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getPrincipalUser() throws Exception {
+        if (getPrincipal()==null)
+            return null;
         Optional<User> user = findById(getPrincipal().getUsername());
         if (user.isPresent())
             return user.get();
