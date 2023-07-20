@@ -66,8 +66,5 @@ public class AuthController {
     public String user(){
         return "user/user";
     }
-    @GetMapping("admin")
-    public String admin(){
-        return "admin/admin";
-    }
+
 }
