@@ -19,7 +19,7 @@ public class CertificatServiceImpl implements CertificatService {
     public Certificat save(Certificat certificat, MultipartFile file) throws Exception {
         if(certificat.getIdC()==null){
             if(numeroExist(certificat.getNumero()))
-                throw new Exception("Numéro déja utilisé");
+                throw new Exception("Numéro de certificat déja utilisé");
             if(!file.isEmpty())
                 certificat.setPdfPath(fileService.saveFile(file));
             else
@@ -46,11 +46,10 @@ public class CertificatServiceImpl implements CertificatService {
                     certificat.setActive(false);
                     certificatRepository.save(certificat);
                 }
-                if(certificat.idC==idC){
-                    certificat.setActive(true);
-                    certificatRepository.save(certificat);
-                }
             }
+            Certificat certif = certificatRepository.findById(idC).get();
+            certif.setActive(true);
+            certificatRepository.save(certif);
         } catch (Exception e) {
             throw new Exception("Impossible d'utiliser ce certificat");
         }
