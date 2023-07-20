@@ -1,0 +1,53 @@
+<div class="navbar-custom">
+  <ul class="list-unstyled topnav-menu float-right mb-0">
+
+    <li class="dropdown notification-list">
+      <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" th:href="@{/admin}" role="button" aria-haspopup="false" aria-expanded="false">
+        <img th:src="@{/assets/images/users/user-1.png}" alt="user-image" class="rounded-circle">
+        <span class="pro-user-name ml-1">
+                                Admin <i class="mdi mdi-chevron-down"></i>
+                            </span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+        <!-- item-->
+        <a th:href="@{/logout}" class="dropdown-item notify-item">
+          <i class="fe-log-out"></i>
+          <span>Deconnexion</span>
+        </a>
+
+      </div>
+    </li>
+
+  </ul>
+  <!-- LOGO -->
+  <div class="logo-box">
+    <a th:href="@{/admin}" class="logo logo-dark text-center">
+                        <span class="logo-lg">
+                            <img th:src="@{/assets/images/T2S.png}" alt="" height="60">
+                        </span>
+      <span class="logo-sm">
+                            <img th:src="@{/assets/images/T2S.png}" alt="" height="24">
+                        </span>
+    </a>
+    <a th:href="@{/admin}" class="logo logo-light text-center">
+                        <span class="logo-lg">
+                            <img th:src="@{/assets/images/T2S.png}" alt="" height="24">
+                        </span>
+      <span class="logo-sm">
+                            <img th:src="@{/assets/images/logo-sm.png}" alt="" height="24">
+                        </span>
+    </a>
+  </div>
+  <ul class="list-unstyled topnav-menu topnav-menu-left mb-0">
+    <li>
+      <button class="button-menu-mobile disable-btn waves-effect">
+        <i class="fe-menu"></i>
+      </button>
+    </li>
+
+    <li>
+      <h4 class="page-title-main">Dashboard</h4>
+    </li>
+
+  </ul>
+</div>

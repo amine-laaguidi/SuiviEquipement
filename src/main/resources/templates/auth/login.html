@@ -104,14 +104,14 @@
 <!-- App js -->
 <script th:src="@{/assets/js/app.min.js}"></script>
 <script>
-    try{
+    document.addEventListener("DOMContentLoaded", function () {
         err=document.getElementById("error");
-        setInterval(function () {err.style.opacity = "0 ";err.style.visibility = "hidden";}, 5000);
-    }catch{}
-    try{
-        err=document.getElementById("success");
-        setInterval(function () {err.style.opacity = "0 ";err.style.visibility = "hidden";}, 5000);
-    }catch{}
+        if(err)
+            setInterval(function () {err.style.opacity = "0 ";err.style.visibility = "hidden";}, 5000);
+        suc=document.getElementById("success");
+        if (suc)
+            setInterval(function () {suc.style.opacity = "0 ";suc.style.visibility = "hidden";}, 5000);
+    });
 </script>
 </body>
 </html>

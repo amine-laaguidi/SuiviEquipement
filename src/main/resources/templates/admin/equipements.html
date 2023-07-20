@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Equipements</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- App favicon -->
+  <link rel="shortcut icon" th:href="@{/assets/images/T2S-ico.ico}">
+  <!-- Bootstrap Css -->
+
+  <link th:href="@{/assets/libs/datatables/dataTables.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/responsive.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/select.bootstrap4.css}" rel="stylesheet" type="text/css" />
+
+  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
+  <!-- Ics Css -->
+  <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link th:href="@{/assets/css/app.min.css}" id="app-stylesheet" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<!-- Begin page -->
+<div id="wrapper">
+  <div th:replace="~{/layouts/navbar :: div}"></div>
+  <div th:replace="~{/layouts/sidebar :: div}"></div>
+
+
+  <div class="content-page">
+    <div class="content">
+
+      <!-- Start Content-->
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card-box">
+              <table id="datatable" class="table table-bordered table-auto">
+                <thead>
+                <tr>
+                  <th>GMDN</th>
+                  <th>Classe</th>
+                  <th>Désignation </th>
+                  <th>Valable au</th>
+                  <th style="width: 50px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="equipement:${equipements}">
+                  <td th:text="${equipement.gmdn}"></td>
+                  <td th:text="${equipement.classe}"></td>
+                  <td th:text="${equipement.designation}"></td>
+                  <td th:each="certificat:${equipement.certificats}" th:if="${certificat.active}" th:text="${#dates.format(certificat.date,'dd/MM/yyyy')}"></td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a  th:each="certificat:${equipement.certificats}" th:if="${certificat.active}" target="_blank" th:href="@{/file/{fileName}(fileName=${certificat.pdfPath})}" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>16787</td>
+                  <td>I</td>
+                  <td>Ôte-agrafes</td>
+
+                  <td>01/08/2024</td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>37445</td>
+                  <td>IIa</td>
+                  <td>Lame de scalpel</td>
+                  <td>12/11/2024</td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>12235</td>
+                  <td>I</td>
+                  <td>Poignée de scalpel</td>
+                  <td>01/08/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11711</td>
+                  <td>I</td>
+                  <td>Filtre à air</td>
+                  <td>30/09/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>13730</td>
+                  <td>I</td>
+                  <td>Conteneur de stérilisation</td>
+                  <td>30/09/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>32262</td>
+                  <td>Im</td>
+                  <td>Compas</td>
+                  <td>22/12/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>10455</td>
+                  <td>I</td>
+                  <td>Couteaux pour os</td>
+                  <td>13/10/2025
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11798</td>
+                  <td>I</td>
+                  <td>Pince</td>
+                  <td>16/03/2023
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>11791</td>
+                  <td>I</td>
+                  <td>Porte-compresse</td>
+                  <td>30/09/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>35141</td>
+                  <td>I</td>
+                  <td>Scalpel</td>
+                  <td>01/08/2024
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  href="javascript:void(0);" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-success">Certificat <i class="mdi mdi-download "></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-danger">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> <!-- end row -->
+
+
+
+      </div> <!-- container-fluid -->
+
+    </div> <!-- content -->
+
+
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- Vendor js -->
+<script th:src="@{/assets/js/vendor.min.js}"></script>
+
+<!-- third party js -->
+<script th:src="@{/assets/libs/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.flash.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.print.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.keyTable.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.select.min.js}"></script>
+<script th:src="@{/assets/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/assets/libs/pdfmake/vfs_fonts.js}"></script>
+<!-- third party js ends -->
+
+<!-- knob plugin -->
+<script th:src="@{/assets/libs/jquery-knob/jquery.knob.min.js}"></script>
+<!-- Datatables init -->
+<script th:src="@{/assets/js/pages/datatables.init.js}"></script>
+
+<!-- App js -->
+<script th:src="@{/assets/js/app.min.js}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    err=document.getElementById("error");
+    if(err)
+      setInterval(function () {err.style.opacity = "0 ";err.style.visibility = "hidden";}, 5000);
+    suc=document.getElementById("success");
+    if (suc)
+      setInterval(function () {suc.style.opacity = "0 ";suc.style.visibility = "hidden";}, 5000);
+  });
+</script>
+</body>
+</html>
