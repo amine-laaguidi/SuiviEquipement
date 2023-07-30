@@ -25,8 +25,8 @@ public class EquipementServiceImpl implements EquipementService {
 
     @Override
     public void deleteById(Long idE) throws Exception {
-        for (Certificat certificat:certificatService.findAll())
-            certificatService.deleteById(certificat.getIdC());
+//        for (Certificat certificat:equipementRepository.findById(idE).get().certificats)
+//            certificatService.deleteById(certificat.getIdC());
         equipementRepository.deleteById(idE);
     }
 

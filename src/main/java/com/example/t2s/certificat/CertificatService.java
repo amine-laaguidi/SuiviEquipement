@@ -14,5 +14,7 @@ public interface CertificatService {
     boolean numeroExist(String numero,Long idC) throws Exception;
     boolean numeroExist(String numero) throws Exception;
     List<Certificat> findAll() throws Exception;
+    List<Certificat> findCertificatsByActive(boolean active) throws Exception;
+    Optional<Certificat> findCertificatByEquipementIdEAndActive(Long idE,boolean active);
     void utiliser(Long idC, Equipement equipement) throws Exception;
 }

@@ -91,4 +91,14 @@ public class CertificatServiceImpl implements CertificatService {
             throw new Exception("Impossible de trouver les certificats");
         }
     }
+
+    @Override
+    public List<Certificat> findCertificatsByActive(boolean active) throws Exception {
+        return certificatRepository.findCertificatsByActive(active);
+    }
+
+    @Override
+    public Optional<Certificat> findCertificatByEquipementIdEAndActive(Long idE, boolean active) {
+        return certificatRepository.findCertificatByEquipementIdEAndActive(idE,active);
+    }
 }
