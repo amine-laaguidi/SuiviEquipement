@@ -20,11 +20,12 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/assets/**").permitAll()
-                .antMatchers("/login","/register","/","/forgetPassword").permitAll()
+                .antMatchers("/login","/register","/file/**","/","/forgetPassword").permitAll()
                 .antMatchers("/admin","/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user","/user/**").hasAnyRole("USER","ADMIN")
                 .anyRequest()
