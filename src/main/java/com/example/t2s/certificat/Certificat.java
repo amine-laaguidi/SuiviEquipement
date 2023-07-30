@@ -22,5 +22,4 @@ public class Certificat {
     String pdfPath;
     @ManyToOne @JoinColumn(name = "idE") @JsonBackReference
     Equipement equipement;
-
 }

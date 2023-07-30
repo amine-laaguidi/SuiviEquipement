@@ -1,10 +1,14 @@
 package com.example.t2s.utilisateur;
 
+import com.example.t2s.demande.DemandeReinitMDP;
+import com.example.t2s.equipement.Equipement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
 
 @Configuration
 @RequiredArgsConstructor
@@ -12,7 +16,7 @@ public class UserConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-//    @Bean
+        @Bean
     CommandLineRunner init_users() {
         return args -> {
             User user = userRepository.save(
@@ -24,7 +28,9 @@ public class UserConfig {
                             true,
                             true,
                             false,
-                            "ROLE_USER")
+                            "ROLE_USER",
+                            new ArrayList<DemandeReinitMDP>(),
+                            new ArrayList<Equipement>())
             );
             User admin = userRepository.save(
                     new User(
@@ -35,7 +41,9 @@ public class UserConfig {
                         true,
                         true,
                         true,
-                        "ROLE_USER")
+                        "ROLE_USER",
+                            new ArrayList<DemandeReinitMDP>(),
+                            new ArrayList<Equipement>())
             );
         };
     }

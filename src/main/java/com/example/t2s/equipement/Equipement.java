@@ -2,9 +2,11 @@ package com.example.t2s.equipement;
 
 import com.example.t2s.accessoire.Accessoire;
 import com.example.t2s.certificat.Certificat;
+import com.example.t2s.utilisateur.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import javax.persistence.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,12 @@ public class Equipement {
     @Column(length = 10)
     String classe;
     Integer gmdn;
+    @ManyToOne @JoinColumn(name = "email") @JsonBackReference
+    User user;
     @OneToMany(mappedBy = "equipement",cascade = CascadeType.ALL) @JsonBackReference
     List<Accessoire> accessoires;
     @OneToMany(mappedBy = "equipement",cascade = CascadeType.ALL)
     List<Certificat> certificats;
-
     public Equipement() {
         idE=null;
         designation=null;
@@ -30,10 +33,12 @@ public class Equipement {
         accessoires=new ArrayList<>();
         certificats = new ArrayList<>();
     }
-
-
     public void addCertificat(Certificat certificat){
         certificats.add(certificat);
         certificat.setEquipement(this);
+    }
+    public void addAccessoire(Accessoire accessoire){
+        accessoires.add(accessoire);
+        accessoire.setEquipement(this);
     }
 }
