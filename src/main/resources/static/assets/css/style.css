@@ -35,3 +35,22 @@
 .myCenter a{
     width: 100%;
 }
+.logo-custom{
+    position: absolute;
+    visibility: hidden;
+}
+@media only screen and (max-width: 700px) {
+
+    .dataTables_wrapper .row{
+        overflow-y: scroll;
+    }
+    .navbar-custom{
+        display: flex;flex-direction: row-reverse;justify-content: space-between;
+    }
+    .logo-custom{
+        position: relative;
+        visibility: visible;
+        width: 100px;
+        height: 100%;
+    }
+}
