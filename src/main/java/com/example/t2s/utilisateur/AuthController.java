@@ -1,10 +1,16 @@
 package com.example.t2s.utilisateur;
 
+import com.example.t2s.demande.DemandeReinitMDP;
+import com.example.t2s.demande.DemandeReinitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/")
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final DemandeReinitService demandeReinitService;
     @GetMapping
     public String index() throws Exception {
         User user = userService.getPrincipalUser();
@@ -62,9 +69,27 @@ public class AuthController {
         model.addAttribute("success","Inscription avec succès, attender la confirmation de l'administrateur");
         return login(model);
     }
-    @GetMapping("user")
-    public String user(){
-        return "user/user";
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(Model model) {
+        return "auth/reset-password";
+    }
+
+    @PostMapping("/reset-password-request")
+    public String handleResetPasswordRequest(String email, Model model) throws Exception {
+        try {
+            Optional<User> user = userService.findById(email);
+            if(!user.isPresent())
+                throw new Exception("Email introuvable");
+            String token = UUID.randomUUID().toString();
+            Date expiration = new Date(System.currentTimeMillis() + 360000000); // 1 hour in milliseconds
+            DemandeReinitMDP demandeReinitMDP = new DemandeReinitMDP(null, token, expiration, true, user.get());
+            demandeReinitService.save(demandeReinitMDP);
+            model.addAttribute("success", "Vous recevrez un email de l'administrateur pour mettre à jour votre mot de passe.");
+        }catch(Exception e){
+            model.addAttribute("error", e.getMessage());
+        }
+        return showResetPasswordForm(model);
     }
 
 }
