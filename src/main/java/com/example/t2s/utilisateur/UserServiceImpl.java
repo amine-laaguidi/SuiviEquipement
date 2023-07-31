@@ -3,6 +3,8 @@ package com.example.t2s.utilisateur;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +15,25 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findById(String username) {
         return userRepository.findById(username);
     }
+
+    @Override
+    public void deleteById(String email) throws Exception {
+        try {
+            userRepository.deleteById(email);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> findAll() throws Exception {
+        List<User> users = userRepository.findAll();
+        for(User user:users){
+            user.setPassword("");
+        }
+        return users;
+    }
+
     @Override
     public ApplicationUserDetails getPrincipal(){
         ApplicationUserDetails user = null;
@@ -31,7 +52,14 @@ public class UserServiceImpl implements UserService {
             throw new Exception("erreur d'inscription");
         }
     }
-
+    @Override
+    public User update(User user) throws Exception {
+        try {
+            return userRepository.save(user);
+        }catch (Exception e){
+            throw new Exception("erreur d'inscription");
+        }
+    }
     @Override
     public User updateRoleByEmail(String email,String role) throws Exception {
         try {

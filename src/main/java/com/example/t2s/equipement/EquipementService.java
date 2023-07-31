@@ -10,4 +10,6 @@ public interface EquipementService {
     void deleteById(Long idE) throws Exception;
     Equipement findById(Long idE) throws Exception;
     List<Equipement> findAll() throws Exception;
+    List<Equipement> findAllOneCertif() throws Exception;
+    Long countEquiByEtat(boolean expired) throws Exception;
 }

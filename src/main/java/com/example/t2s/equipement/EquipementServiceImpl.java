@@ -5,6 +5,8 @@ import com.example.t2s.certificat.CertificatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -42,5 +44,43 @@ public class EquipementServiceImpl implements EquipementService {
         } catch (Exception e) {
             throw new Exception("Impossible de trouver les equipements");
         }
+    }
+    @Override
+    public List<Equipement> findAllOneCertif() throws Exception {
+        try {
+            List<Equipement> equipements= equipementRepository.findAll();
+            Certificat certificat=null;
+            for(Equipement equipement:equipements ){
+                for (Certificat tmp:equipement.getCertificats()){
+                    if(tmp.getActive()){
+                        certificat= tmp;
+                        break;
+                    }
+                }
+                List<Certificat> certificats = new ArrayList<Certificat>();
+                certificats.add(certificat);
+                equipement.setCertificats(certificats);
+            }
+            return equipementRepository.findAll();
+        } catch (Exception e) {
+            throw new Exception("Impossible de trouver les equipements");
+        }
+    }
+
+    @Override
+    public Long countEquiByEtat(boolean expired) throws Exception {
+        List<Equipement> equipements= findAllOneCertif();
+        Date currentDate = new Date();
+        long count =0;
+        for(Equipement equipement:equipements ){
+            if(expired) {
+                if (equipement.getCertificats().get(0).getDate().compareTo(currentDate) < 0)
+                    count++;
+            }else {
+                if (equipement.getCertificats().get(0).getDate().compareTo(currentDate) >= 0)
+                    count++;
+            }
+        }
+        return count;
     }
 }
