@@ -6,7 +6,6 @@ import com.example.t2s.utilisateur.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import javax.persistence.*;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
