@@ -4,9 +4,8 @@
     <li class="dropdown notification-list">
       <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" th:href="@{/admin}" role="button" aria-haspopup="false" aria-expanded="false">
         <img th:src="@{/assets/images/users/user-1.png}" alt="user-image" class="rounded-circle">
-        <span class="pro-user-name ml-1">
-                                Admin <i class="mdi mdi-chevron-down"></i>
-                            </span>
+        <span class="pro-user-name ml-1" th:text="${session.currentUser.nomComplet}" >
+        </span>
       </a>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
         <!-- item-->
@@ -53,7 +52,16 @@
     </li>
 
     <li>
-      <h4 class="page-title-main">Dashboard</h4>
+      <h4 class="page-title-main" th:if="${#httpServletRequest.getRequestURI() == '/admin'}" >Dashboard</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/ajouterEqui')}" >Equipements</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/equipements')}" >Equipements</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/equipement/details')}" >Equipements</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/ajouterAcce')}" >Accessoires</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/accessoires')}" >Accessoires</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/ajouterCert')}" >Certificats</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/certificats')}" >Certificats</h4>
+      <h4 class="page-title-main" th:if="${#strings.startsWith(#httpServletRequest.getRequestURI(),'/admin/utilisateurs')}" >Utilisateurs</h4>
+
     </li>
 
   </ul>

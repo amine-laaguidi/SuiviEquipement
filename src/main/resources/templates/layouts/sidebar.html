@@ -5,8 +5,7 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
 
-            <ul class="metismenu" id="side-menu">
-
+            <ul class="metismenu" id="side-menu" th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">
                 <li>
                     <a th:href="@{/admin}">
                         <i class="mdi mdi-view-dashboard"></i>
@@ -40,19 +39,45 @@
                 <li>
                     <a th:href="@{/admin/ajouterCert}">
                         <i class="mdi  mdi-plus-circle"></i>
-                        <span> Ajouter cértificat </span>
+                        <span> Ajouter certificat </span>
                     </a>
                 </li>
                 <li>
                     <a th:href="@{/admin/certificats}">
                         <i class="mdi mdi-certificate"></i>
-                        <span> Cértificats </span>
+                        <span> Certificats </span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/admin}">
+                    <a th:href="@{/admin/utilisateurs}">
                         <i class="mdi mdi-account-group"></i>
                         <span> Utilisateurs</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="metismenu" id="side-menu" th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_USER')}">
+                <li>
+                    <a th:href="@{/user}">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> Dashboard </span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/equipements}">
+                        <i class="mdi mdi-view-list"></i>
+                        <span> Equipements </span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/accessoires}">
+                        <i class="mdi mdi-view-list"></i>
+                        <span> Accessoires </span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/certificats}">
+                        <i class="mdi mdi-certificate"></i>
+                        <span> Certificats </span>
                     </a>
                 </li>
             </ul>
