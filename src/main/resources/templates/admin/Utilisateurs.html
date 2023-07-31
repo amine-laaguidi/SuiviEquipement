@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Equipements</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Coderthemes" name="author" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- App favicon -->
+  <link rel="shortcut icon" th:href="@{/assets/images/T2S-ico.ico}">
+  <!-- Bootstrap Css -->
+
+  <link th:href="@{/assets/libs/datatables/dataTables.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/responsive.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/libs/datatables/select.bootstrap4.css}" rel="stylesheet" type="text/css" />
+  <!-- Sweet Alert-->
+  <link th:href="@{/assets/libs/sweetalert2/sweetalert2.min.css}" rel="stylesheet" type="text/css" />
+
+  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
+  <!-- Ics Css -->
+  <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link th:href="@{/assets/css/app.min.css}" id="app-stylesheet" rel="stylesheet" type="text/css" />
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<!-- Begin page -->
+<div id="wrapper">
+  <div th:replace="~{/layouts/navbar :: div}"></div>
+  <div th:replace="~{/layouts/sidebar :: div}"></div>
+
+
+  <div class="content-page">
+    <div class="content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card-box">
+              <h4 class="header-title mt-0 mb-3">Liste d'utilisateurs</h4>
+
+              <table id="datatable" class="table table-bordered table-auto">
+                <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Nom et prenom</th>
+                  <th style="width: 50px;">Etat</th>
+                  <th style="width: 50px;">Role </th>
+                  <th style="width: 50px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${users}" th:if="${!#strings.equals(session.currentUser.email,user.email)}">
+                  <td th:text="${user.email}"></td>
+                  <td th:text="${user.nomComplet}"></td>
+                  <td>
+                    <div class="btn-group mt-1" th:if="${user.enabled}">
+                      <button type="button" class="btn btn-success dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Actif  <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  th:href="@{'/admin/utilisateur/enable/'+ ${user.email} +'/0'}" class="btn btn-danger">Désactiver <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-group mt-1" th:if="${!user.enabled}">
+                      <button type="button" class="btn btn-danger dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Inactif  <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a th:href="@{'/admin/utilisateur/enable/'+${user.email}+'/1'}" class="btn btn-success">Activer <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1" th:if="${#strings.equals(user.role,'ROLE_ADMIN')}">
+                      <button type="button" class="btn btn-success dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Admin  <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a th:href="@{'/admin/utilisateur/role/'+${user.email}+'/ROLE_USER'}" class="btn btn-primary">Utilisateur <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-group mt-1" th:if="${#strings.equals(user.role,'ROLE_USER')}">
+                      <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Utilisateur  <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a th:href="@{'/admin/utilisateur/role/'+${user.email}+'/ROLE_ADMIN'}" class="btn btn-success">Admin <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <div class="dropdown-item myCenter">
+                        <a th:href="@{'/admin/utilisateur/delete/'+${user.email}}" class="btn btn-danger sa-params">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> <!-- end row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card-box">
+              <h4 class="header-title mt-0 mb-3">Demande de changement de mot de passe</h4>
+
+              <table id="datatable2" class="table table-bordered table-auto">
+                <thead>
+                <tr>
+                  <th>Email</th>
+                  <th style="width: 50px;">Expiration </th>
+                  <th style="width: 50px;">Etat </th>
+                  <th style="width: 200px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="demande:${demandesReinit}">
+                  <td th:text="${demande.user.email}"></td>
+                  <td th:text="${#dates.format(demande.expiration,'dd/MM/yyyy:hh:mm:ss')}"></td>
+                  <td th:if="${#dates.createNow().after(demande.expiration)}"><i style="color: rgb(207, 31, 31);" class="mdi mdi-timer-sand-empty"></i>  Expiré</td>
+                  <td th:unless="${#dates.createNow().after(demande.expiration)}"><i style="color: rgb(31, 207, 31);" class="mdi mdi-timer-sand-full"></i>  Valide</td>
+                  <td>
+                    <div class="btn-group mt-1">
+                      <div class="dropdown-item myCenter">
+                        <a th:href="@{'localhost:8082/reset-password/'+${demande.token}}" class="btn btn-warning sa-email">Envoyer un mail <i class="mdi mdi-square-edit-outline"></i></a>
+                      </div>
+                      <div class="dropdown-item myCenter">
+                        <a th:href="@{'/admin/demandeReinit/delete/'+${demande.id}}" class="btn btn-danger sa-params">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> <!-- end row -->
+
+      </div> <!-- container-fluid -->
+
+    </div> <!-- content -->
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- Vendor js -->
+<script th:src="@{/assets/js/vendor.min.js}"></script>
+<!-- third party js -->
+<script th:src="@{/assets/libs/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.flash.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/buttons.print.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.keyTable.min.js}"></script>
+<script th:src="@{/assets/libs/datatables/dataTables.select.min.js}"></script>
+<script th:src="@{/assets/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/assets/libs/pdfmake/vfs_fonts.js}"></script>
+<!-- third party js ends -->
+<!-- Sweet Alerts js -->
+<script th:src="@{/assets/libs/sweetalert2/sweetalert2.min.js}"></script>
+<!-- Sweet alert init js-->
+<script th:src="@{/assets/js/pages/sweet-alerts.init.js}"></script>
+<!-- knob plugin -->
+<script th:src="@{/assets/libs/jquery-knob/jquery.knob.min.js}"></script>
+<!-- Datatables init -->
+<script th:src="@{/assets/js/pages/datatables.init.js}"></script>
+
+<!-- App js -->
+<script th:src="@{/assets/js/app.min.js}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    err=document.getElementById("error");
+    if(err)
+      setInterval(function () {err.style.opacity = "0 ";err.style.visibility = "hidden";}, 5000);
+    suc=document.getElementById("success");
+    if (suc)
+      setInterval(function () {suc.style.opacity = "0 ";suc.style.visibility = "hidden";}, 5000);
+  });
+</script>
+</body>
+</html>

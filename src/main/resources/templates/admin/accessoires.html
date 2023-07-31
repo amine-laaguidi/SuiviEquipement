@@ -16,9 +16,11 @@
   <link th:href="@{/assets/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/assets/libs/datatables/select.bootstrap4.css}" rel="stylesheet" type="text/css" />
 
-  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
   <!-- Sweet Alert-->
   <link th:href="@{/assets/libs/sweetalert2/sweetalert2.min.css}" rel="stylesheet" type="text/css" />
+
+  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
+
   <!-- Ics Css -->
   <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
   <!-- App Css-->
@@ -43,56 +45,29 @@
         <div class="row">
           <div class="col-12">
             <div class="card-box">
-              <h4 class="header-title mt-0 mb-3">Liste d'equipements</h4>
-
+              <h4 class="header-title mt-0 mb-3">Liste d'accessoires</h4>
               <table id="datatable" class="table table-bordered table-auto">
                 <thead>
                 <tr>
-                  <th>GMDN</th>
-                  <th>Classe</th>
-                  <th>Désignation </th>
-                  <th>Valable au</th>
-                  <th style="width: 50px;">État</th>
-                  <th style="width: 50px;">Action</th>
+                  <th>Référance</th>
+                  <th>Description</th>
+                  <th>Equipement </th>
+                  <th style="width: 50px;" th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="equipement:${equipements}">
-                  <td th:text="${equipement.gmdn}"></td>
-                  <td th:text="${equipement.classe}"></td>
-                  <td th:text="${equipement.designation}"></td>
-                  <td   th:text="${#dates.format(equipement.certificats.get(0).date,'dd/MM/yyyy')}"></td>
-                  <td th:if="${#dates.createNow().after(equipement.certificats.get(0).date)}"><i style="color: rgb(207, 31, 31);" class="mdi mdi-timer-sand-empty"></i>  Expiré</td>
-                  <td th:unless="${#dates.createNow().after(equipement.certificats.get(0).date)}"><i style="color: rgb(31, 207, 31);" class="mdi mdi-timer-sand-full"></i>  Valide</td>
+
+                <tr th:each="accessoire:${accessoires}">
+                  <td th:text="${accessoire.ref}"></td>
+                  <td th:text="${accessoire.description}"></td>
+                  <td><a th:href="@{/admin/equipement/details/{idE}(idE=${accessoire.equipement.idE})}" th:utext="${accessoire.equipement.designation +'&lt;i class=&quot;mdi mdi-open-in-new&quot;&gt;&lt;/i&gt;'}"></a></td>
                   <td th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">
                     <div class="btn-group mt-1">
-                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                      <div class="dropdown-menu">
-                        <div class="dropdown-item myCenter">
-                          <a  th:href="@{/admin/equipement/details/{idE}(idE=${equipement.idE})}" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a  target="_blank" th:href="@{/file/{fileName}(fileName=${equipement.certificats.get(0).pdfPath})}" class="btn btn-success sa-certificat">Certificat <i class="mdi mdi-download "></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a th:href="@{/admin/equipement/delete/{idE}(idE=${equipement.idE})}" class="btn btn-danger sa-equipement">Supprimer <i class="mdi mdi-delete-outline"></i></a>
-                        </div>
+                      <div class="dropdown-item myCenter">
+                        <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
                       </div>
-                    </div>
-                  </td>
-                  <td  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_USER')}">
-                    <div class="btn-group mt-1">
-                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                      <div class="dropdown-menu">
-                        <div class="dropdown-item myCenter">
-                          <a  th:href="@{/user/equipement/details/{idE}(idE=${equipement.idE})}" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a  target="_blank" th:href="@{/file/{fileName}(fileName=${equipement.certificats.get(0).pdfPath})}" class="btn btn-success sa-certificat">Certificat <i class="mdi mdi-download "></i></a>
-                        </div>
+                      <div class="dropdown-item myCenter">
+                        <a th:href="@{/admin/accessoire/delete/{idA}(idA=${accessoire.idA})}" class="btn btn-danger sa-params">Supprimer  <i class="mdi mdi-delete-outline"></i></a>
                       </div>
                     </div>
                   </td>

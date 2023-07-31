@@ -15,10 +15,10 @@
   <link th:href="@{/assets/libs/datatables/responsive.bootstrap4.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/assets/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/assets/libs/datatables/select.bootstrap4.css}" rel="stylesheet" type="text/css" />
-
-  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
   <!-- Sweet Alert-->
   <link th:href="@{/assets/libs/sweetalert2/sweetalert2.min.css}" rel="stylesheet" type="text/css" />
+
+  <link th:href="@{/assets/css/bootstrap.min.css}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
   <!-- Ics Css -->
   <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
   <!-- App Css-->
@@ -37,62 +37,35 @@
   <div class="content-page">
     <div class="content">
 
-      <!-- Start Content-->
       <div class="container-fluid">
 
         <div class="row">
           <div class="col-12">
             <div class="card-box">
-              <h4 class="header-title mt-0 mb-3">Liste d'equipements</h4>
-
+              <h4 class="header-title mt-0 mb-3">Liste de certificats utilisés</h4>
               <table id="datatable" class="table table-bordered table-auto">
                 <thead>
-                <tr>
-                  <th>GMDN</th>
-                  <th>Classe</th>
-                  <th>Désignation </th>
-                  <th>Valable au</th>
-                  <th style="width: 50px;">État</th>
-                  <th style="width: 50px;">Action</th>
-                </tr>
+                  <tr>
+                    <th>Numéro</th>
+                    <th>Valable au</th>
+                    <th>Equipement</th>
+                    <th>Certificat</th>
+                    <th style="width: 50px;">État</th>
+                    <th style="width: 50px;"  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">Action</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr th:each="equipement:${equipements}">
-                  <td th:text="${equipement.gmdn}"></td>
-                  <td th:text="${equipement.classe}"></td>
-                  <td th:text="${equipement.designation}"></td>
-                  <td   th:text="${#dates.format(equipement.certificats.get(0).date,'dd/MM/yyyy')}"></td>
-                  <td th:if="${#dates.createNow().after(equipement.certificats.get(0).date)}"><i style="color: rgb(207, 31, 31);" class="mdi mdi-timer-sand-empty"></i>  Expiré</td>
-                  <td th:unless="${#dates.createNow().after(equipement.certificats.get(0).date)}"><i style="color: rgb(31, 207, 31);" class="mdi mdi-timer-sand-full"></i>  Valide</td>
-                  <td th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">
+                <tr  th:each="certificatA:${certificatsA}">
+                  <td th:text="${certificatA.numero}"></td>
+                  <td th:text="${#dates.format(certificatA.date,'dd/MM/yyyy')}"></td>
+                  <td><a th:href="@{/admin/equipement/details/{idE}(idE=${certificatA.equipement.idE})}" th:utext="${certificatA.equipement.designation + '&lt;i class=&quot;mdi mdi-open-in-new&quot;&gt;&lt;/i&gt;'}"></a></td>
+                  <td><a th:href="@{/file/{fileName}(fileName=${certificatA.pdfPath})}" class="sa-certificat" target=”_blank” >Télécharger <i class="mdi mdi-download"> </i></a></td>
+                  <td th:if="${#dates.createNow().after(certificatA.date)}"><i style="color: rgb(207, 31, 31);" class="mdi mdi-timer-sand-empty"></i>  Expiré</td>
+                  <td th:unless="${#dates.createNow().after(certificatA.date)}"><i style="color: rgb(31, 207, 31);" class="mdi mdi-timer-sand-full"></i>  Valide</td>
+                  <td  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">
                     <div class="btn-group mt-1">
-                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                      <div class="dropdown-menu">
-                        <div class="dropdown-item myCenter">
-                          <a  th:href="@{/admin/equipement/details/{idE}(idE=${equipement.idE})}" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a  target="_blank" th:href="@{/file/{fileName}(fileName=${equipement.certificats.get(0).pdfPath})}" class="btn btn-success sa-certificat">Certificat <i class="mdi mdi-download "></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a th:href="@{/admin/equipement/delete/{idE}(idE=${equipement.idE})}" class="btn btn-danger sa-equipement">Supprimer <i class="mdi mdi-delete-outline"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_USER')}">
-                    <div class="btn-group mt-1">
-                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
-                      <div class="dropdown-menu">
-                        <div class="dropdown-item myCenter">
-                          <a  th:href="@{/user/equipement/details/{idE}(idE=${equipement.idE})}" class="btn btn-primary">Détails <i class="mdi mdi-information-outline"></i></a>
-                        </div>
-                        <div class="dropdown-item myCenter">
-                          <a  target="_blank" th:href="@{/file/{fileName}(fileName=${equipement.certificats.get(0).pdfPath})}" class="btn btn-success sa-certificat">Certificat <i class="mdi mdi-download "></i></a>
-                        </div>
+                      <div class="dropdown-item myCenter">
+                        <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
                       </div>
                     </div>
                   </td>
@@ -102,7 +75,53 @@
             </div>
           </div>
         </div> <!-- end row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card-box">
+              <h4 class="header-title mt-0 mb-3">Historique de certificats</h4>
+              <table id="datatable2" class="table table-bordered table-auto">
+                <thead>
+                <tr>
+                  <th>Numéro</th>
+                  <th>Valable au</th>
+                  <th>Equipement</th>
+                  <th>Certificat</th>
+                  <th style="width: 50px;">État</th>
+                  <th style="width: 50px;"  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="certificatI:${certificatsI}">
+                  <td th:text="${certificatI.numero}"></td>
+                  <td th:text="${#dates.format(certificatI.date,'dd/MM/yyyy')}"></td>
+                  <td><a th:href="@{/admin/equipement/details/{idE}(idE=${certificatI.equipement.idE})}" th:utext="${certificatI.equipement.designation + '&lt;i class=&quot;mdi mdi-open-in-new&quot;&gt;&lt;/i&gt;'}"></a></td>
+                  <td><a th:href="@{/file/{fileName}(fileName=${certificatI.pdfPath})}" class="sa-certificat" target=”_blank” >Télécharger <i class="mdi mdi-download"> </i></a></td>
+                  <td th:if="${#dates.createNow().after(certificatI.date)}"><i style="color: rgb(207, 31, 31);" class="mdi mdi-timer-sand-empty"></i>  Expiré</td>
+                  <td th:unless="${#dates.createNow().after(certificatI.date)}"><i style="color: rgb(31, 207, 31);" class="mdi mdi-timer-sand-full"></i>  Valide</td>
+                  <td  th:if="${#strings.equals(session.currentUser.getRole(),'ROLE_ADMIN')}">
+                    <div class="btn-group mt-1">
+                      <button type="button" class="btn btn-secondary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <i class="mdi mdi-chevron-down"></i></button>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-item myCenter">
+                          <a  th:href="@{/admin/utiliserCertif/{idC}(idC=${certificatI.idC})}" class="btn btn-primary">Utiliser <i class="mdi mdi-check-bold"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a href="javascript:void(0);" class="btn btn-warning">Modifier <i class="mdi mdi-square-edit-outline"></i></a>
+                        </div>
+                        <div class="dropdown-item myCenter">
+                          <a th:href="@{/admin/certificat/delete/{idC}(idC=${certificatI.idC})}"  class="btn btn-danger sa-params">Supprimer <i class="mdi mdi-delete-outline"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
 
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> <!-- end row -->
 
 
       </div> <!-- container-fluid -->
@@ -124,7 +143,6 @@
 
 <!-- Vendor js -->
 <script th:src="@{/assets/js/vendor.min.js}"></script>
-
 <!-- third party js -->
 <script th:src="@{/assets/libs/datatables/jquery.dataTables.min.js}"></script>
 <script th:src="@{/assets/libs/datatables/dataTables.bootstrap4.js}"></script>
@@ -140,15 +158,15 @@
 <script th:src="@{/assets/libs/pdfmake/pdfmake.min.js}"></script>
 <script th:src="@{/assets/libs/pdfmake/vfs_fonts.js}"></script>
 <!-- third party js ends -->
-
-<!-- knob plugin -->
-<script th:src="@{/assets/libs/jquery-knob/jquery.knob.min.js}"></script>
-<!-- Datatables init -->
-<script th:src="@{/assets/js/pages/datatables.init.js}"></script>
 <!-- Sweet Alerts js -->
 <script th:src="@{/assets/libs/sweetalert2/sweetalert2.min.js}"></script>
 <!-- Sweet alert init js-->
 <script th:src="@{/assets/js/pages/sweet-alerts.init.js}"></script>
+<!-- knob plugin -->
+<script th:src="@{/assets/libs/jquery-knob/jquery.knob.min.js}"></script>
+<!-- Datatables init -->
+<script th:src="@{/assets/js/pages/datatables.init.js}"></script>
+
 <!-- App js -->
 <script th:src="@{/assets/js/app.min.js}"></script>
 <script>
